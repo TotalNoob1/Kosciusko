@@ -1,0 +1,58 @@
+body {
+  margin:0;
+  padding:0;
+  background-image: url(img/connectwork.png);
+ }
+hr{
+  border: 0;
+  bottom: 3%;
+  position: relative;
+  height: 2px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 55, 255, 0.75), rgba(0, 0, 0, 0));
+
+}
+#map {
+  position:relative;
+  top:0;
+  bottom:0;
+  width:100%;
+ }
+ h1,h2{
+   font-family: 'Open Sans Condensed', sans-serif;
+   text-align: center;
+ }
+ .content{
+   height: 50%;
+   width: 100%
+ }
+ .heading{
+   background-color: #705e5e;
+ }
+ .kos{
+   margin-top: 0px;
+   text-align: center;
+ }
+@media screen and (max-width: 450px)  {
+  #map{
+    height: 50%;
+  }
+  .infoKos{
+    font-size: 110%;
+    height: 100%;
+    font-size: 125%;
+    color: #705e5e;
+    width: 100%;
+
+  }
+  .infoKosCon{
+    position: relative;
+  }
+  .signPic{
+    width: 100%;
+    position: relative;
+    bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+
+}
