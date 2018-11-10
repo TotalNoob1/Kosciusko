@@ -4,7 +4,7 @@ $.ajax({
   dataType:'jsonp',
   success: function ( response) {
     console.log(response);
-    entireResponse = response[2]
+    entireResponse = response[2]//get the response
     $('.infoKosCon').html(entireResponse)
 
   }
