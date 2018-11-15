@@ -144,20 +144,21 @@ class Mapbox extends Component{
 
 
     return(// TODO: figure out why the style warning is popping up
-        <Map onMouseLeave ={onLeave} style = "mapbox://styles/mapbox/dark-v9" zoom = {[13.4]} center ={[-89.569310,33.050519]}>
-          {showing.map((coor) => (//Puts all the markers
+        <Map role="application" tabindex="-1" onMouseLeave ={onLeave} style = "mapbox://styles/mapbox/dark-v9" zoom = {[13.4]} center ={[-89.569310,33.050519]}>
+          {showing.map((coor) => (//Puts all the <markers></markers>
             <div key ={coor[1]}>
-              <Marker onClick={onClick} className ={`${coor[0]} marker`} key ={coor[0]} coordinates = {[coor[1][0],coor[1][1]]}
+              <Marker   onClick={onClick} className ={`${coor[0]} marker`} key ={coor[0]} coordinates = {[coor[1][0],coor[1][1]]}
                 anchor='bottom'>
+                <p tabIndex ='1'  className={`${onClick} acs`}>{coor[0]}</p>
               </Marker>
               {anchor.state.change === coor[0]? (
-                <Popup onMouseLeave ={onLeave} key ={coor[2]} coordinates ={[coor[1][0],coor[1][1]]} className="popUp">
+                <Popup tabindex ='0' onMouseLeave ={onLeave} key ={coor[2]} coordinates ={[coor[1][0],coor[1][1]]} className="popUp">
                 {loc[this.state.num] !=='Apology there has been an error' ?(
                   <div>
-                    <p>{name[this.state.num]}</p>
-                    <p>{loc[this.state.num][0]}</p>
-                    <p>{loc[this.state.num][1]}</p>
-                    <p>{loc[this.state.num][2]}</p>
+                    <p tabIndex ='0'>{name[this.state.num]}</p>
+                    <p tabIndex ='0'>{loc[this.state.num][0]}</p>
+                    <p tabIndex ='0'>{loc[this.state.num][1]}</p>
+                    <p tabIndex ='0'>{loc[this.state.num][2]}</p>
                   </div>
 
                 ):(
