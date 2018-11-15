@@ -27,16 +27,10 @@ class Api extends React.Component {
     let anchor = this;
     return(
       <div>
-      {this.props.infoKos ? (
         <div>
           <p>{anchor.state.dataKos}</p>
         </div>
-
-      ):(
-        <p>bl</p>
-      )
-    }
-    </div>
+      </div>
     )
 
   }

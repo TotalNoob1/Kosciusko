@@ -8,7 +8,14 @@ let name=[];
 const Map =ReactMapboxGl({
   accessToken: "pk.eyJ1IjoicHJpenphIiwiYSI6ImNqbjlkZW4ycDAwYTQzcHAzc3N3bnJkZmkifQ.bX3NbWd6FaE78ETqbiGw1A"
 })
-var geojson = [['gasStation',[-89.573001,33.061491]], ['hotel',[-89.577668,33.040732]],['restraunt',[-89.578184,33.039741]],['pizza',[-89.572359,33.046060 ]],['wallmart',[-89.566914,33.055070]]];
+var geojson = [['gasStation',[-89.573001,33.061491]], ['hotel',[-89.577668,33.040732]],['restraunt',[-89.578184,33.039741]],['pizza',[-89.572359,33.046060 ]],['wallmart',[-89.567288,33.053980]]];
+let showing =[]
+let cats = [
+  ['restraunt',[geojson[3],geojson[2]]],
+  ['gas',[geojson[0]]],
+  ['hotel',[geojson[1]]],
+  ['store',[geojson[4]]]
+]
 class Mapbox extends Component{
   state ={
     change:'',
@@ -17,7 +24,7 @@ class Mapbox extends Component{
 
   }
   componentDidMount(){
-    let anchor = this;// find a way to make the fetch api better
+    let anchor = this;// TODO: Put this in a for loop
     fetch('https://api.foursquare.com/v2/venues/explore?client_id=3U5ZC3OBRXYMAF13ZXHA33WOB3VNHFMRJTE5OW4FBV5BDM3V&client_secret=F1ZRH4PISLPFTSHM0UWGYU1OEROGORT1ZKCZX3RMQGUUBLUO&v=20180323&limit=1&ll=33.0447,-89.5742&query=Pizza')
     .then(function(value) {
       return value.json();
@@ -41,8 +48,8 @@ class Mapbox extends Component{
       anchor.setState({nameData:name})
     })
     .catch(function(error) {
-      loc[1]= 'Apology There has been an error'
-      name[1]= 'Apology There has been an error'
+      loc[1]= 'Apology there has been an error'
+      name[1]= 'Apology there has been an error'
       console.log(error);
     });
     fetch('https://api.foursquare.com/v2/venues/explore?client_id=3U5ZC3OBRXYMAF13ZXHA33WOB3VNHFMRJTE5OW4FBV5BDM3V&client_secret=F1ZRH4PISLPFTSHM0UWGYU1OEROGORT1ZKCZX3RMQGUUBLUO&v=20180323&limit=1&ll=33.0447,-89.5742&query=hotel')
@@ -90,6 +97,7 @@ class Mapbox extends Component{
   render(){
     let anchor = this
     function onClick(event) {
+      event.target.style.backgroundColor="blue";
       if (event.target.classList[0] === 'wallmart') {
         anchor.setState({change:'wallmart'});
         anchor.setState({num:4});
@@ -112,17 +120,39 @@ class Mapbox extends Component{
 
 
       }
+      let or = event.target
+      setTimeout(function () {
+        or.style.backgroundColor = 'transparent';
+      },750)
     }
+    for (var i = 0; i < cats.length; i++) {
+      if (this.props.selected === "all") {
+      showing = geojson
+
+      }else if(cats[i][0]===this.props.selected){
+        showing = cats[i][1]
+      }else if (this.props.selected==='none') {
+        showing =[]
+
+      }
+    }
+
+    function onLeave() {
+      anchor.setState({change:''})
+
+    }
+
+
     return(// TODO: figure out why the style warning is popping up
-        <Map style = "mapbox://styles/mapbox/dark-v9" zoom = {[13.4]} center ={[-89.569310,33.050519]}>
-          {geojson.map((coor) => (//Puts all the markers
+        <Map onMouseLeave ={onLeave} style = "mapbox://styles/mapbox/dark-v9" zoom = {[13.4]} center ={[-89.569310,33.050519]}>
+          {showing.map((coor) => (//Puts all the markers
             <div key ={coor[1]}>
               <Marker onClick={onClick} className ={`${coor[0]} marker`} key ={coor[0]} coordinates = {[coor[1][0],coor[1][1]]}
                 anchor='bottom'>
               </Marker>
               {anchor.state.change === coor[0]? (
-                <Popup key ={coor[2]} coordinates ={[coor[1][0],coor[1][1]]} className="popUp">
-                {loc[0][1] ?(
+                <Popup onMouseLeave ={onLeave} key ={coor[2]} coordinates ={[coor[1][0],coor[1][1]]} className="popUp">
+                {loc[this.state.num] !=='Apology there has been an error' ?(
                   <div>
                     <p>{name[this.state.num]}</p>
                     <p>{loc[this.state.num][0]}</p>
@@ -132,7 +162,7 @@ class Mapbox extends Component{
 
                 ):(
                   <div>
-                    <p>{name[this.state.num]}</p>
+                    <p>Apology there has been an error</p>
                   </div>
 
                 )}
