@@ -14,9 +14,7 @@ hr{
 .ack{
   margin: 0px;
 }
-.acs{
-  text-indent: -10000px;
-}
+
 .marker {
   background-image: url(img/icons8-marker-filled-50.png);
   background-size: cover;
@@ -114,7 +112,7 @@ hr{
   }
   .infoKos{
     float: right;
-    font-size: 150%;
+    font-size: 140%;
     position: relative;
     bottom: 25px;
     height: 100%;

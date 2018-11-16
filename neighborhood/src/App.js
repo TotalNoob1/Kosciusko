@@ -3,18 +3,41 @@ import './App.css';
 import Api from './api.js'
 import welcome from './img/KoscuiskoMSWelcomeSign.jpg'
 import Mapbox from './map.js'
-let names =[['restraunt','El Rodeo'],['hotel','Americas Best Value Inn Kosciusko'],['restraunt','Pizza Hut'],['store','Walmart'],['gas','Bp Gas']]
-
 class App extends Component {
   state ={
     filter:'all'
   }
-
+  gm_authFailure(){
+    window.alert("Mapbox error please reload.")
+  }
   render() {
+    let options = [['restraunt',"El Rodeo"],['hotel',"Americas Best Value Inn Kosciusko"],['restraunt',"Pizza Hut"],['store',"Walmart"],['gas',"Bp Gas"]]
+    let select = []
     let anchor = this;
     function onClick(event) {
       anchor.setState({filter:event.target.value})
     }
+    function change() {
+      for (var i = 0; i < select.length; i++) {//Clears select
+        select[i].pop()
+      }
+      if (anchor.state.filter ==='all') {
+        for (var i = 0; i < options.length; i++) {
+          select.push(options[i][1])
+        }
+      }else if(anchor.state.filter === 'none'){
+        select = [];
+      }else {
+        for (var x = 0; x < options.length; x++) {
+          if (options[x][0] === anchor.state.filter) {
+            select.push(options[x][1])
+          }
+        }
+
+      }
+      anchor.setState();
+    }
+    change()
     return (
       <div className="App">
       <div id="map" key ='mapCon'>
@@ -26,7 +49,7 @@ class App extends Component {
           <h1 tabIndex ='0' className="kos">Kosciusko Mississippi</h1>
         </header>
         <div className="infoKos">
-          <h2 tabindex ='0'>
+          <h2 tabIndex ='0'>
             Info of Kosciusko
           </h2>
           <hr/>
@@ -50,15 +73,12 @@ class App extends Component {
               <option  value="all">All</option>
             </select>
           </section>
-          {}
-          <ul  className= "list">
-            <li value="restraunt" tabIndex ='0'>El Rodeo</li>
-            <li value="hotel" tabIndex ='0'>Americas Best Value Inn Kosciusko</li>
-            <li value="restraunt" tabIndex ='0'>Pizza Hut</li>
-            <li value="store" tabIndex ='0'>Walmart</li>
-            <li value="gas" tabIndex ='0'>Bp Gas</li>
+          <ul  role="list" className= "list">
+          {select.map((selected)=>(
+            <li role='button' tabIndex ='0'>{selected}</li>
+          ))}
           </ul>
-          <p className ='ack'>Thanks to Mapbox and foursquare for the Api</p>
+          <p tabIndex="0" className ='ack'>Thanks to Mapbox and Foursquare for the Api</p>
 
 
 

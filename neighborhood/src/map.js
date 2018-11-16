@@ -16,6 +16,7 @@ let cats = [
   ['hotel',[geojson[1]]],
   ['store',[geojson[4]]]
 ]
+const searchTerms = ['Pizza','Mexican','hotel','gas','walmart']
 class Mapbox extends Component{
   state ={
     change:'',
@@ -25,74 +26,22 @@ class Mapbox extends Component{
   }
   componentDidMount(){
     let anchor = this;// TODO: Put this in a for loop
-    fetch('https://api.foursquare.com/v2/venues/explore?client_id=3U5ZC3OBRXYMAF13ZXHA33WOB3VNHFMRJTE5OW4FBV5BDM3V&client_secret=F1ZRH4PISLPFTSHM0UWGYU1OEROGORT1ZKCZX3RMQGUUBLUO&v=20180323&limit=1&ll=33.0447,-89.5742&query=Pizza')
-    .then(function(value) {
-      return value.json();
-    }).then(function (data) {
-      loc[0] = data.response.groups[0].items[0].venue.location.formattedAddress;//stores the address and the name of the target
-      name[0] =data.response.groups[0].items[0].venue.name;
-      anchor.setState({locData:loc})
-      anchor.setState({nameData:name})
-    }).catch(function(error) {
-      loc[0]= 'Apology there has been an error'
-      name[0]= 'Apology there has been an error'
-      console.log(error);
-    });
-    fetch('https://api.foursquare.com/v2/venues/explore?client_id=3U5ZC3OBRXYMAF13ZXHA33WOB3VNHFMRJTE5OW4FBV5BDM3V&client_secret=F1ZRH4PISLPFTSHM0UWGYU1OEROGORT1ZKCZX3RMQGUUBLUO&v=20180323&limit=1&ll=33.0447,-89.5742&query=Mexican')
-    .then(function(value) {
-      return value.json();
-    }).then(function (data) {
-      loc[1] = data.response.groups[0].items[0].venue.location.formattedAddress;
-      name[1] =data.response.groups[0].items[0].venue.name;
-      anchor.setState({locData:loc})
-      anchor.setState({nameData:name})
-    })
-    .catch(function(error) {
-      loc[1]= 'Apology there has been an error'
-      name[1]= 'Apology there has been an error'
-      console.log(error);
-    });
-    fetch('https://api.foursquare.com/v2/venues/explore?client_id=3U5ZC3OBRXYMAF13ZXHA33WOB3VNHFMRJTE5OW4FBV5BDM3V&client_secret=F1ZRH4PISLPFTSHM0UWGYU1OEROGORT1ZKCZX3RMQGUUBLUO&v=20180323&limit=1&ll=33.0447,-89.5742&query=hotel')
-    .then(function(value) {
-      return value.json();
-    }).then(function (data) {
-      loc[2] = data.response.groups[0].items[0].venue.location.formattedAddress;
-      name[2] =data.response.groups[0].items[0].venue.name;
-      anchor.setState({locData:loc})
-      anchor.setState({nameData:name})
-    })
-    .catch(function(error) {
-      loc[2]= 'Apology there has been an error'
-      name[2]= 'Apology there has been an error'
-      console.log(error);
-    });
-    fetch('https://api.foursquare.com/v2/venues/explore?client_id=3U5ZC3OBRXYMAF13ZXHA33WOB3VNHFMRJTE5OW4FBV5BDM3V&client_secret=F1ZRH4PISLPFTSHM0UWGYU1OEROGORT1ZKCZX3RMQGUUBLUO&v=20180323&limit=1&ll=33.0447,-89.5742&query=gas')
-    .then(function(value) {
-      return value.json();
-    }).then(function (data) {
-      loc[3] = data.response.groups[0].items[0].venue.location.formattedAddress;
-      name[3] =data.response.groups[0].items[0].venue.name;
-      anchor.setState({locData:loc})
-      anchor.setState({nameData:name})
-    })
-    .catch(function(error) {
-      loc[3]= 'Apology there has been an error'
-      name[3]= 'Apology there has been an error'
-      console.log(error);
-    });
-    fetch('https://api.foursquare.com/v2/venues/explore?client_id=3U5ZC3OBRXYMAF13ZXHA33WOB3VNHFMRJTE5OW4FBV5BDM3V&client_secret=F1ZRH4PISLPFTSHM0UWGYU1OEROGORT1ZKCZX3RMQGUUBLUO&v=20180323&limit=1&ll=33.0447,-89.5742&query=walmart')
-    .then(function(value) {
-      return value.json();
-    }).then(function (data) {
-      loc[4] = data.response.groups[0].items[0].venue.location.formattedAddress;
-      name[4] =data.response.groups[0].items[0].venue.name;
-      anchor.setState({locData:loc})
-      anchor.setState({nameData:name})
-    }).catch(function(error) {
-      loc[4]= 'Apology there has been an error'
-      name[4]= 'Apology there has been an error'
-      console.log(error);
-    });
+    for (var i = 0; i < searchTerms.length; i++) {
+      fetch('https://api.foursquare.com/v2/venues/explore?client_id=3U5ZC3OBRXYMAF13ZXHA33WOB3VNHFMRJTE5OW4FBV5BDM3V&client_secret=F1ZRH4PISLPFTSHM0UWGYU1OEROGORT1ZKCZX3RMQGUUBLUO&v=20180323&limit=1&ll=33.0447,-89.5742&query=' +searchTerms[i])
+      .then(function(value) {
+        return value.json();
+      }).then(function (data) {
+        loc.push(data.response.groups[0].items[0].venue.location.formattedAddress);//stores the address and the name of the target
+        name.push(data.response.groups[0].items[0].venue.name);
+        anchor.setState({locData:loc})
+        anchor.setState({nameData:name})
+      }).catch(function(error) {
+        loc[i]= 'Apology there has been an error'
+        name[i]= 'Apology there has been an error'
+        console.log(error);
+      });
+    }
+
   }
   render(){
     let anchor = this
@@ -149,7 +98,6 @@ class Mapbox extends Component{
             <div key ={coor[1]}>
               <Marker   onClick={onClick} className ={`${coor[0]} marker`} key ={coor[0]} coordinates = {[coor[1][0],coor[1][1]]}
                 anchor='bottom'>
-                <p tabIndex ='1'  className={`${onClick} acs`}>{coor[0]}</p>
               </Marker>
               {anchor.state.change === coor[0]? (
                 <Popup tabindex ='0' onMouseLeave ={onLeave} key ={coor[2]} coordinates ={[coor[1][0],coor[1][1]]} className="popUp">
