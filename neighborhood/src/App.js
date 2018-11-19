@@ -135,7 +135,7 @@ class App extends Component {
             <li  key ={selected} aria-label ={`${selected[1]} ${selected[2][0]} ${selected[2][1]} ${selected[2][2]}`}  className ="addressInput" tabIndex ='0'>{selected[1]}</li>
           ))}
           </ul>
-          <p tabIndex="0" className ='ack'>Thanks to Mapbox and Foursquare for the Api</p>
+          <p tabIndex="0" className ='ack'>Thanks to Mapbox, Wikipedia and Foursquare for the Api</p>
 
 
 
