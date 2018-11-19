@@ -16,7 +16,7 @@ let cats = [
   ['hotel',[geojson[1]]],
   ['store',[geojson[4]]]
 ]
-const searchTerms = ['Pizza','Mexican','hotel','gas','walmart']
+const searchTerms = ['pizza','mexican','hotel','gas','walmart']
 class Mapbox extends Component{
   state ={
     change:'',
@@ -31,8 +31,32 @@ class Mapbox extends Component{
       .then(function(value) {
         return value.json();
       }).then(function (data) {
-        loc.push(data.response.groups[0].items[0].venue.location.formattedAddress);//stores the address and the name of the target
-        name.push(data.response.groups[0].items[0].venue.name);
+        if (data.response.groups[0].items[0].venue.name === "Pizza Hut") {
+
+          loc[0] = data.response.groups[0].items[0].venue.location.formattedAddress;//stores the address and the name of the target
+          name[0] =data.response.groups[0].items[0].venue.name;
+
+        }else if (data.response.groups[0].items[0].venue.name === "El Rodeo") {
+
+          loc[1] = data.response.groups[0].items[0].venue.location.formattedAddress;//stores the address and the name of the target
+          name[1] = data.response.groups[0].items[0].venue.name;
+
+        }else if (data.response.groups[0].items[0].venue.name === "Americas Best Value Inn Kosciusko") {
+
+          loc[2] = data.response.groups[0].items[0].venue.location.formattedAddress;//stores the address and the name of the target
+          name[2] =data.response.groups[0].items[0].venue.name;
+
+        }else if (data.response.groups[0].items[0].venue.name === "BP") {
+
+          loc[3] = data.response.groups[0].items[0].venue.location.formattedAddress;//stores the address and the name of the target
+          name[3] =data.response.groups[0].items[0].venue.name;
+
+        }else if (data.response.groups[0].items[0].venue.name === "Walmart Supercenter") {
+
+          loc[4] = data.response.groups[0].items[0].venue.location.formattedAddress;//stores the address and the name of the target
+          name[4] =data.response.groups[0].items[0].venue.name;
+
+        }
         anchor.setState({locData:loc})
         anchor.setState({nameData:name})
       }).catch(function(error) {

@@ -26,9 +26,7 @@ class Api extends React.Component {
   render() {
     let anchor = this;
     return(
-        <div>
           <p tabIndex ='0'>{anchor.state.dataKos}</p>
-        </div>
     )
 
   }
